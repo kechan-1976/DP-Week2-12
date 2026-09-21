@@ -1,0 +1,9 @@
+.vs/
+*.slnx
+x64/
+Debug/
+Release/
+*.exe
+*.pdb
+*.tlog
+*.lastbuildstate
