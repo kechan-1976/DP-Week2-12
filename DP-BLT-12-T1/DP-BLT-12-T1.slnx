@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="DP-BLT-12-T1/DP-BLT-12-T1.vcxproj" Id="8303f183-2e45-4b31-bf3a-1c68a15a798a" />
+</Solution>
