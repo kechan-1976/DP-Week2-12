@@ -1,0 +1,47 @@
+#include <iostream>
+#include <memory>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+struct TurnInput {
+    int value;
+};
+
+class IInputGenerator {
+public:
+    virtual TurnInput generate() = 0;
+    virtual ~IInputGenerator() = default;
+};
+
+class RandomInputGenerator : public IInputGenerator {
+public:
+    TurnInput generate() override {
+        return { rand() % 10 + 1 };
+    }
+};
+
+class IScoringRule {
+public:
+    virtual int computeScore(const TurnInput& input) = 0;
+    virtual ~IScoringRule() = default;
+};
+
+class SimpleScoringRule : public IScoringRule {
+public:
+    int computeScore(const TurnInput& input) override {
+        return input.value;
+    }
+};
+
+class IRewardRule {
+public:
+    virtual int computeReward(int baseScore) = 0;
+    virtual ~IRewardRule() = default;
+};
+
+class ModifiedRewardRule : public IRewardRule {
+public:
+    int computeReward(int baseScore) override {
+        return baseScore + 2;
+    }
+};
