@@ -1,1 +1,61 @@
+class ShopSystem {
+public:
+    void visitShop(int& money) {
+        cout << "[SHOP] offered: Bonus(+2) cost 2 \n[SHOP] skipped\n";
+    }
+};
 
+class RunSession {
+private:
+    unique_ptr<IInputGenerator> inputGenerator;
+    unique_ptr<IScoringRule> scoringRule;
+    unique_ptr<IRewardRule> rewardRule;
+    ShopSystem shop;
+    int money = 0;
+
+public:
+    RunSession(unique_ptr<IInputGenerator> inputGen,
+        unique_ptr<IScoringRule> scoreRule,
+        unique_ptr<IRewardRule> rewRule)
+        : inputGenerator(move(inputGen)),
+        scoringRule(move(scoreRule)),
+        rewardRule(move(rewRule)) {}
+
+    void run() {
+        cout << "=== RUN START ===\n\n";
+
+        for (int round = 1; round <= 3; ++round) {
+            cout << "Round " << round << "\n";
+
+            TurnInput input = inputGenerator->generate();
+            cout << "[PLAY] input generated: " << input.value << "\n";
+
+            int baseScore = scoringRule->computeScore(input);
+            cout << "[SCORE] base score: " << baseScore << "\n";
+
+            int reward = rewardRule->computeReward(baseScore);
+            money += reward;
+            cout << "[REWARD] gain: " << reward << " | money: " << money << "\n";
+
+            shop.visitShop(money);
+            cout << "\n";
+        }
+
+        cout << "=== RUN END ===\n";
+        cout << "Final money: " << money << "\n";
+    }
+};
+
+int main() {
+    srand(static_cast<unsigned>(time(nullptr)));
+
+    RunSession session(
+        make_unique<RandomInputGenerator>(),
+        make_unique<SimpleScoringRule>(),
+        make_unique<ModifiedRewardRule>()
+    );
+
+    session.run();
+
+    return 0;
+}
