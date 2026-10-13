@@ -1,4 +1,4 @@
-# Task 1 -- Building a Balatro-Like Run
+# Task 5 -- Chain Of Responsibility
 
 ## Cara compile & run
 ```
